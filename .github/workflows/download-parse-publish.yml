@@ -6,8 +6,15 @@ on:
 jobs:
   download-and-parse:
     runs-on: ubuntu-latest
-
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+
       - name: Ledarny download and parse
         run: |
           rm -rf ./data
@@ -18,4 +25,4 @@ jobs:
           wget http://rybarna.net/denni-menu/ -O data/rybarna.html
           echo ### Chemie ###
           wget https://www.prague-catering.cz/provozovny/kantyna-ceska-sporitelna-antal/Denni-menu-Antal/ -O data/chemicka.html
-          node -v
+          node parser.js
