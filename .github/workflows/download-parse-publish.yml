@@ -30,9 +30,13 @@ jobs:
           wget https://www.prague-catering.cz/provozovny/kantyna-ceska-sporitelna-antal/Denni-menu-Antal/ -O data/chemicka.html
           node parser.js
 
-      - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@4.1.4
-        with:
-          branch: main
-          folder: output
-          clean: true
+      - name: Configure Git
+        run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+      
+      - name: Commit and Push Changes
+        run: |
+          git add docs/*
+          git commit -m "Update Lunch Menu" -a || echo "No changes to commit"
+          git push
