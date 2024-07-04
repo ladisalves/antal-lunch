@@ -1,0 +1,21 @@
+name: Download, parse and publish
+
+on:
+  workflow_dispatch:
+
+jobs:
+  download-and-parse:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Ledarny download and parse
+        run: |
+          rm -rf ./data
+          mkdir -p ./data
+          echo ### Ledarny ###
+          wget https://www.senkyrna.cz/senkyrna-na-ledarnach/denni-nabidka -O data/ledarny.html
+          echo ### Rybarny ###
+          wget http://rybarna.net/denni-menu/ -O data/rybarna.html
+          echo ### Chemie ###
+          wget https://www.prague-catering.cz/provozovny/kantyna-ceska-sporitelna-antal/Denni-menu-Antal/ -O data/chemicka.html
+          node -v
