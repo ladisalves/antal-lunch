@@ -6,14 +6,15 @@ on:
 
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   download-and-parse:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
-        with:
-          persist-credentials: true
+        uses: actions/checkout@v3
       
       - name: Set up Node.js
         uses: actions/setup-node@v2
@@ -32,13 +33,10 @@ jobs:
           wget https://www.prague-catering.cz/provozovny/kantyna-ceska-sporitelna-antal/Denni-menu-Antal/ -O data/chemicka.html
           node parser.js
 
-      - name: Configure Git
+      - name: Commit and Push Changes
         run: |
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
-      
-      - name: Commit and Push Changes
-        run: |
           git add docs/*
           git commit -m "Update Lunch Menu" -a || echo "No changes to commit"
           git push
