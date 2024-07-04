@@ -1,6 +1,9 @@
 name: Download, parse and publish
 
 on:
+  schedule:
+    - cron: '0 7 * * 1-5' # Runs at 10:00 AM every weekday
+
   workflow_dispatch:
 
 jobs:
@@ -15,7 +18,7 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Ledarny download and parse
+      - name: Download and parse
         run: |
           rm -rf ./data
           mkdir -p ./data
@@ -26,3 +29,10 @@ jobs:
           echo ### Chemie ###
           wget https://www.prague-catering.cz/provozovny/kantyna-ceska-sporitelna-antal/Denni-menu-Antal/ -O data/chemicka.html
           node parser.js
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@4.1.4
+        with:
+          branch: main
+          folder: output
+          clean: true
