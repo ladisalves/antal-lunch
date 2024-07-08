@@ -9,20 +9,26 @@ const parseLunchMenu = async (menuFile, startExp, endExp, lineReplacer) => {
     const data = await fs.readFile(filePath, 'utf8');
     let started = false;
     // Split the file content by new line and process each line
-    data.split('\n').forEach((line) => {
-      if (started && line.trim().match(endExp)) {
-        started = false;
-        return;
-      }
-      if (line.trim().match(startExp)) {
-        started = true;
-      }
-      if (started) {
-        output = output.concat(
-            line.replace(lineReplacer, '###').replace(/<[^>]*>/g, '').replace(/###/g, '<br />')
-        );
-      }
-    });
+    try {
+        data.split('\n').forEach((line) => {
+            const lineTrimmed = line.trim().replace(lineReplacer, '###')
+            if (started && lineTrimmed.match(endExp)) {
+              started = false;
+              throw new Error('end');
+            }
+            if (lineTrimmed.match(startExp) !== null) {
+              started = true;
+            }
+            if (started) {
+              output = output.concat(
+                  lineTrimmed.replace(/<[^>]*>/g, '').replace(/###/g, '<br />')
+              );
+            }
+          });
+      
+    } catch(err) {
+        // end of parsing
+    }
   } catch (err) {
     console.error('Error reading the file:', err);
     return;
@@ -36,7 +42,7 @@ const parseLunchMenu = async (menuFile, startExp, endExp, lineReplacer) => {
     const ledarny = await parseLunchMenu(
         './data/ledarny.html',
         /<table class="table">.*/,
-        /.*Dnes na čepu*/,
+        /.*Staň se fanouškem.*/,
         /<\/tr>|<\/h5>/g
     )
     const rybarna = await parseLunchMenu(
@@ -51,6 +57,7 @@ const parseLunchMenu = async (menuFile, startExp, endExp, lineReplacer) => {
         /.*UPOZORNĚNÍ PRO ZÁKAZNÍKY.*/,
         /<\/h2>|<\/tr>/g
     )
+
 
     // today formated yyyy-mm-dd
     const today = new Date().toISOString().split('T')[0];
