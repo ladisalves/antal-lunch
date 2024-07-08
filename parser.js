@@ -85,7 +85,7 @@ const parseLunchMenu = async (menuFile, startExp, endExp, lineReplacer) => {
     </html>`;
 
     // Save the parsed menus to files
-    await fs.writeFile('./data/lunch-menu.html', lunchMenu);
+    await fs.writeFile('./docs/lunch-menu.html', lunchMenu);
 
     console.log('generated');
 })();
