@@ -35,13 +35,13 @@ const parseLunchMenu = async (menuFile, startExp, endExp, lineReplacer) => {
 (async function(){
     const ledarny = await parseLunchMenu(
         './data/ledarny.html',
-        /<table class="table"><table class="table">/,
+        /<table class="table">.*/,
         /.*taň se fanouškem.*/,
         /<\/tr>|<\/h5>/g
     )
     const rybarna = await parseLunchMenu(
         './data/rybarna.html',
-        /<p>Dnes otevreno do ..:..<\/p>/,
+        /<p><strong>Jídelní lístek.*/,
         /<ul class="wp-block-gallery columns-0 is-cropped"><\/ul>/,
         /<\/p>|<\/li>/g
     )
@@ -85,7 +85,7 @@ const parseLunchMenu = async (menuFile, startExp, endExp, lineReplacer) => {
     </html>`;
 
     // Save the parsed menus to files
-    await fs.writeFile('./docs/index.html', lunchMenu);
+    await fs.writeFile('./data/lunch-menu.html', lunchMenu);
 
     console.log('generated');
 })();
