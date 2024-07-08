@@ -36,7 +36,7 @@ const parseLunchMenu = async (menuFile, startExp, endExp, lineReplacer) => {
     const ledarny = await parseLunchMenu(
         './data/ledarny.html',
         /<table class="table">.*/,
-        /.*taň se fanouškem.*/,
+        /.*Dnes na čepu*/,
         /<\/tr>|<\/h5>/g
     )
     const rybarna = await parseLunchMenu(
