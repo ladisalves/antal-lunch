@@ -2,7 +2,7 @@ name: Download, parse and publish
 
 on:
   schedule:
-    - cron: '50 6 * * 1-5' # Runs at 10:00 AM every weekday
+    - cron: '50 7 * * 1-5' # Runs at 10:00 AM every weekday
 
   workflow_dispatch:
 
